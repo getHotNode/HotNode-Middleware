@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <title>HotNode</title>
+    <meta http-equiv="Pragma" content="no-cache">
+</head>
+<body>
+
+    <h3>Cache: {{ redis }}</h3>
+    <form action="startRedis">
+        <button>Start Redis</button>
+    </form>
+    <form action="stopRedis">
+        <button>Stop Redis</button>
+    </form>
+
+    <h3>{{ version }}</h3>
+    <h3>Bitcoind Status: {{ bitcoind }}</h3>
+    <h3>Lightningd Status: {{ lightningd }}</h3>
+    {% if bitcoind != 'running' and bitcoind != 'exited' and bitcoind != 'created' %}
+
+        <form action="/createBitcoind">
+            <button>Create Bitcoind container</button>
+        </form>
+    {% endif %}
+    {% if bitcoind != '' %}
+        {% if bitcoind != 'running' %}
+            <form action="/startBitcoind">
+                <button>Start Bitcoind container</button>
+            </form>
+        {% endif %}
+        {% if bitcoind != 'exited' and bitcoind != 'created' %}
+            <form action="/stopBitcoind">
+                <button>Stop Bitcoind container</button>
+            </form>
+        {% endif %}
+        {% if bitcoind != 'running' %}
+            <form action="/deleteBitcoind">
+                <button>Delete Bitcoind container</button>
+            </form>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
